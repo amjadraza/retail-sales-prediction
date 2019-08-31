@@ -14,13 +14,29 @@ retail-sales-prediction
         :alt: Documentation Status
 
 
+Python project to predict the sales of retail stores with machine learning. This project is
+based on the data provided in Kaggle Competition.
 
-
-Python project to predict the sales of retail stores with machine learning
+Kaggle Link : https://www.kaggle.com/c/favorita-grocery-sales-forecasting/
 
 
 * Free software: MIT license
 * Documentation: https://retail-sales-prediction.readthedocs.io.
+
+Project Environment
+-------------------
+
+We create the project environment using below command.
+
+``conda env create -f environment.yml -p ./venv``
+
+Update the existing conda environment
+
+``conda env update -f environment.yml -p ./venv``
+
+Activate the environment
+
+``conda activate ./venv``
 
 
 Features
