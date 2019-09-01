@@ -1,7 +1,9 @@
-# -*- coding: utf-8 -*-
+import logging
+import os
 
-"""Top-level package for retail-sales-prediction."""
+MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODULE_NAME = os.path.basename(MODULE_DIR)
+PROJECT_DIR = os.path.abspath(os.path.join(MODULE_DIR, '..'))
+PROJECT_NAME = os.path.basename(PROJECT_DIR)
 
-__author__ = """MA RAZA"""
-__email__ = 'amjadraza24@gmail.com'
-__version__ = '0.1.0'
+logger = logging.getLogger(MODULE_NAME)
