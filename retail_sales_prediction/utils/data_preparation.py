@@ -19,15 +19,18 @@ class FeaturePreparation():
         self.stores = df_stores
         self.train = df_train
         self.test = df_test
+        self._labeltovalues()
         logger.info('Pre Processing the data for training and promotions')
-        (self.df_2017,
-         self.promo_2017,
-         self.df_2017_item,
-         self.promo_2017_item,
-         self.df_2017_store_class_index,
-         self.df_2017_store_class,
-         self.df_2017_promo_store_class_index,
-         self.df_2017_promo_store_class) = self._pre_process_data()
+
+
+        # (self.df_2017,
+        #  self.promo_2017,
+        #  self.df_2017_item,
+        #  self.promo_2017_item,
+        #  self.df_2017_store_class_index,
+        #  self.df_2017_store_class,
+        #  self.df_2017_promo_store_class_index,
+        #  self.df_2017_promo_store_class) = self._pre_process_data()
 
     def _labeltovalues(self):
 
@@ -41,10 +44,10 @@ class FeaturePreparation():
         self.stores['type'] = le.fit_transform(self.stores['type'].values)
         return self
 
-    def _pre_process_data(self):
+    def pre_process_data(self):
 
-        print('Converting Label to values')
-        self._labeltovalues()
+        # print('Converting Label to values')
+        # self._labeltovalues()
         # Extracting the training data for 2017 until 2017-08-14
         df_2017 = self.train.loc[self.train.date >= pd.datetime(2017, 1, 1)]
         # Delete the big training data
@@ -206,26 +209,31 @@ class FeaturePreparation():
             X.columns = ['%s_%s' % (name_prefix, c) for c in X.columns]
         return X
 
-    def get_training_data(self, anchor_date = date(2017, 6, 14) , num_days =6):
+    def get_training_data(self, df_2017, promo_2017,
+                         df_2017_item, promo_2017_item,
+                         df_2017_store_class, df_2017_store_class_index,
+                         df_2017_promo_store_class, df_2017_promo_store_class_index,
+                          anchor_date=date(2017, 6, 14), num_days =6):
         print("Preparing dataset...")
         t2017 = anchor_date
         # num_days = 6
         X_l, y_l = [], []
         for i in range(num_days):
             delta = timedelta(days=7 * i)
-            X_tmp, y_tmp = self.prepare_dataset(self.df_2017, self.promo_2017, t2017 + delta)
+            X_tmp, y_tmp = self.prepare_dataset(df_2017, promo_2017, t2017 + delta)
 
-            X_tmp2 = self.prepare_dataset(self.df_2017_item, self.promo_2017_item, t2017 + delta, is_train=False, name_prefix='item')
-            X_tmp2.index = self.df_2017_item.index
-            X_tmp2 = X_tmp2.reindex(self.df_2017.index.get_level_values(1)).reset_index(drop=True)
+            X_tmp2 = self.prepare_dataset(df_2017_item, promo_2017_item, t2017 + delta,
+                                          is_train=False, name_prefix='item')
+            X_tmp2.index = df_2017_item.index
+            X_tmp2 = X_tmp2.reindex(df_2017.index.get_level_values(1)).reset_index(drop=True)
 
-            X_tmp3 = self.prepare_dataset(self.df_2017_store_class,
-                                          self.df_2017_promo_store_class,
+            X_tmp3 = self.prepare_dataset(df_2017_store_class,
+                                          df_2017_promo_store_class,
                                           t2017 + delta,
                                           is_train=False,
                                           name_prefix='store_class')
-            X_tmp3.index = self.df_2017_store_class.index
-            X_tmp3 = X_tmp3.reindex(self.df_2017_store_class_index).reset_index(drop=True)
+            X_tmp3.index = df_2017_store_class.index
+            X_tmp3 = X_tmp3.reindex(df_2017_store_class_index).reset_index(drop=True)
 
             X_tmp = pd.concat([X_tmp,
                                X_tmp2,
@@ -244,44 +252,54 @@ class FeaturePreparation():
 
         return X_train, y_train
 
-    def get_validation_data(self, val_start_date=date(2017, 7, 26)):
+    def get_validation_data(self,df_2017, promo_2017,
+                           df_2017_item, promo_2017_item,
+                           df_2017_store_class, df_2017_store_class_index,
+                           df_2017_promo_store_class, df_2017_promo_store_class_index,
+                           val_start_date=date(2017, 7, 26)):
 
         # del X_l, y_l
 
         # Prepare Validation data set
         # val_start_date = date(2017, 7, 26)
-        X_val, y_val = self.prepare_dataset(self.df_2017, self.promo_2017, val_start_date)
+        X_val, y_val = self.prepare_dataset(df_2017, promo_2017, val_start_date)
 
-        X_val2 = self.prepare_dataset(self.df_2017_item, self.promo_2017_item, val_start_date, is_train=False, name_prefix='item')
-        X_val2.index = self.df_2017_item.index
-        X_val2 = X_val2.reindex(self.df_2017.index.get_level_values(1)).reset_index(drop=True)
+        X_val2 = self.prepare_dataset(df_2017_item, promo_2017_item,
+                                      val_start_date, is_train=False, name_prefix='item')
+        X_val2.index = df_2017_item.index
+        X_val2 = X_val2.reindex(df_2017.index.get_level_values(1)).reset_index(drop=True)
 
-        X_val3 = self.prepare_dataset(self.df_2017_store_class, self.df_2017_promo_store_class, val_start_date, is_train=False,
-                                 name_prefix='store_class')
-        X_val3.index = self.df_2017_store_class.index
-        X_val3 = X_val3.reindex(self.df_2017_store_class_index).reset_index(drop=True)
+        X_val3 = self.prepare_dataset(df_2017_store_class, df_2017_promo_store_class,
+                                      val_start_date, is_train=False,
+                                      name_prefix='store_class')
+        X_val3.index = df_2017_store_class.index
+        X_val3 = X_val3.reindex(df_2017_store_class_index).reset_index(drop=True)
 
         X_val = pd.concat([X_val, X_val2, X_val3, self.items.reset_index(), self.stores.reset_index()], axis=1)
 
         return X_val, y_val
 
-    def get_test_data(self, test_start_date = date(2017, 7, 26)):
+    def get_test_data(self, df_2017, promo_2017,
+                      df_2017_item, promo_2017_item,
+                      df_2017_store_class, df_2017_store_class_index,
+                      df_2017_promo_store_class, df_2017_promo_store_class_index,
+                      test_start_date=date(2017, 7, 26)):
         # Prepare Test data set
         # test_start_date = date(2017, 8, 16)
-        X_test = self.prepare_dataset(self.df_2017, self.promo_2017, test_start_date, is_train=False)
+        X_test = self.prepare_dataset(df_2017, promo_2017, test_start_date, is_train=False)
 
-        X_test2 = self.prepare_dataset(self.df_2017_item,
-                                       self.promo_2017_item,
+        X_test2 = self.prepare_dataset(df_2017_item,
+                                       promo_2017_item,
                                        test_start_date, is_train=False, name_prefix='item')
-        X_test2.index = self.df_2017_item.index
-        X_test2 = X_test2.reindex(self.df_2017.index.get_level_values(1)).reset_index(drop=True)
+        X_test2.index = df_2017_item.index
+        X_test2 = X_test2.reindex(df_2017.index.get_level_values(1)).reset_index(drop=True)
 
-        X_test3 = self.prepare_dataset(self.df_2017_store_class,
-                                       self.df_2017_promo_store_class,
+        X_test3 = self.prepare_dataset(df_2017_store_class,
+                                       df_2017_promo_store_class,
                                        test_start_date, is_train=False,
                                         name_prefix='store_class')
-        X_test3.index = self.df_2017_store_class.index
-        X_test3 = X_test3.reindex(self.df_2017_store_class_index).reset_index(drop=True)
+        X_test3.index = df_2017_store_class.index
+        X_test3 = X_test3.reindex(df_2017_store_class_index).reset_index(drop=True)
 
         X_test = pd.concat([X_test, X_test2, X_test3, self.items.reset_index(), self.stores.reset_index()], axis=1)
 

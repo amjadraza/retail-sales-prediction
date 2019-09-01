@@ -1,5 +1,3 @@
-
-
 """Main module."""
 
 """
@@ -15,11 +13,10 @@ from sklearn.preprocessing import LabelEncoder
 import lightgbm as lgb
 
 from os.path import basename
-import sys
 import os
 import sys
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-# sys.path.append('..')
 
 from retail_sales_prediction.utils.data_loader import readDataStore
 from retail_sales_prediction.utils.data_preparation import FeaturePreparation
@@ -29,7 +26,6 @@ from retail_sales_prediction.utils.run_model import run_model_lgbm
 from retail_sales_prediction import logger
 
 if __name__ == '__main__':
-
     data_dir = '/media/farmshare2/Research/raza/p_data/'
 
     LoggingConfigurator.init(data_dir + 'logs.log')
@@ -56,10 +52,31 @@ if __name__ == '__main__':
 
     feature_prep = FeaturePreparation(df_train, df_test, df_items, df_stores)
 
-    X_train, y_train = feature_prep.get_training_data(anchor_date=date(2017, 6, 14), num_days=6)
+    (df_2017, promo_2017,
+     df_2017_item, promo_2017_item,
+     df_2017_store_class, df_2017_store_class_index,
+     df_2017_promo_store_class, df_2017_promo_store_class_index) = feature_prep.pre_process_data()
 
-    X_val, y_val = feature_prep.get_validation_data(val_start_date=date(2017, 7, 26))
+    X_train, y_train = feature_prep. \
+        get_training_data(df_2017, promo_2017,
+                          df_2017_item, promo_2017_item,
+                          df_2017_store_class, df_2017_store_class_index,
+                          df_2017_promo_store_class, df_2017_promo_store_class_index,
+                          anchor_date=date(2017, 6, 14), num_days=6)
 
-    X_test = feature_prep.get_test_data(test_start_date=date(2017, 7, 26))
+    X_val, y_val = feature_prep. \
+        get_validation_data(df_2017, promo_2017,
+                            df_2017_item, promo_2017_item,
+                            df_2017_store_class, df_2017_store_class_index,
+                            df_2017_promo_store_class, df_2017_promo_store_class_index,
+                            val_start_date=date(2017, 7, 26))
 
-    run_model_lgbm(feature_prep, X_train, y_train,X_val, y_val, X_test, num_days=6)
+    X_test = feature_prep. \
+        get_test_data(df_2017, promo_2017,
+                      df_2017_item, promo_2017_item,
+                      df_2017_store_class, df_2017_store_class_index,
+                      df_2017_promo_store_class, df_2017_promo_store_class_index,
+                      test_start_date=date(2017, 8, 16))
+
+    run_model_lgbm(feature_prep, X_train, y_train,
+                   X_val, y_val, X_test, num_days=6)
