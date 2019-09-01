@@ -1,25 +1,49 @@
 """
-This is an upgraded version of Ceshine's LGBM starter script, simply adding more
-average features and weekly average features on it.
+.. module:: FeaturePreparation
+   :synopsis: Data Preparation
+.. moduleauthor:: MA Raza
+
+This module is to prepare data for training, validation and test periods. This module contains
+ functionality to create new features and slice the data into various splits to be used as training
+ our models.
+
+Todo:
+    * Add rolling training, validation and test class
+    * Can be re-factored using pandas functionality of rolling generator
+    * Convert the code to handle spark dataframes
 """
+
 from datetime import date, timedelta
 import gc
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
 import logging
-
 logger = logging.getLogger(__name__)
 
+
 class FeaturePreparation():
+    """
+    This class prepare the data to be used for training our models. The code is inherited from
+    Kaggle notebooks mostly and transformed into this module.
+    Args:
+        df_train: Training Dataframe
+        df_test: Test Dataframe
+        df_items: Items dataframe
+        df_stores: Stores dataframe
+
+    """
 
     def __init__(self, df_train, df_test, df_items, df_stores):
+        """
+        init method
+        """
 
         self.items = df_items
         self.stores = df_stores
         self.train = df_train
         self.test = df_test
-        self._labeltovalues()
+        # self._labeltovalues()
         logger.info('Pre Processing the data for training and promotions')
 
 
@@ -33,6 +57,11 @@ class FeaturePreparation():
         #  self.df_2017_promo_store_class) = self._pre_process_data()
 
     def _labeltovalues(self):
+        """
+        Converts categorical variables into numeric ones
+        Returns:
+
+        """
 
         # Assigning the values to the labels
         logger.info('Performing the label to values conversion')
@@ -45,9 +74,14 @@ class FeaturePreparation():
         return self
 
     def pre_process_data(self):
+        """
+        Reshaping the data compatible with our model
+        Returns:
 
-        # print('Converting Label to values')
-        # self._labeltovalues()
+        """
+
+        print('Converting Label to values')
+        self._labeltovalues()
         # Extracting the training data for 2017 until 2017-08-14
         df_2017 = self.train.loc[self.train.date >= pd.datetime(2017, 1, 1)]
         # Delete the big training data
@@ -131,6 +165,18 @@ class FeaturePreparation():
         return df[pd.date_range(dt - timedelta(days=minus), periods=periods, freq=freq)]
 
     def prepare_dataset(self, df, promo_df, t2017, is_train=True, name_prefix=None):
+        """
+        Engineering new features
+        Args:
+            df:
+            promo_df:
+            t2017:
+            is_train:
+            name_prefix:
+
+        Returns:
+
+        """
         X = {
             "promo_14_2017": self.get_timespan(promo_df, t2017, 14, 14).sum(axis=1).values,
             "promo_60_2017": self.get_timespan(df=promo_df, dt=t2017, minus=60, periods=60).sum(axis=1).values,
@@ -214,6 +260,23 @@ class FeaturePreparation():
                          df_2017_store_class, df_2017_store_class_index,
                          df_2017_promo_store_class, df_2017_promo_store_class_index,
                           anchor_date=date(2017, 6, 14), num_days =6):
+        """
+        Creating X_train and y_train
+        Args:
+            df_2017:
+            promo_2017:
+            df_2017_item:
+            promo_2017_item:
+            df_2017_store_class:
+            df_2017_store_class_index:
+            df_2017_promo_store_class:
+            df_2017_promo_store_class_index:
+            anchor_date:
+            num_days:
+
+        Returns:
+
+        """
         print("Preparing dataset...")
         t2017 = anchor_date
         # num_days = 6
@@ -257,6 +320,22 @@ class FeaturePreparation():
                            df_2017_store_class, df_2017_store_class_index,
                            df_2017_promo_store_class, df_2017_promo_store_class_index,
                            val_start_date=date(2017, 7, 26)):
+        """
+        Generating X_val and y_val sets
+        Args:
+            df_2017:
+            promo_2017:
+            df_2017_item:
+            promo_2017_item:
+            df_2017_store_class:
+            df_2017_store_class_index:
+            df_2017_promo_store_class:
+            df_2017_promo_store_class_index:
+            val_start_date:
+
+        Returns:
+
+        """
 
         # del X_l, y_l
 
@@ -284,6 +363,22 @@ class FeaturePreparation():
                       df_2017_store_class, df_2017_store_class_index,
                       df_2017_promo_store_class, df_2017_promo_store_class_index,
                       test_start_date=date(2017, 7, 26)):
+        """
+        Generating X_test set
+        Args:
+            df_2017:
+            promo_2017:
+            df_2017_item:
+            promo_2017_item:
+            df_2017_store_class:
+            df_2017_store_class_index:
+            df_2017_promo_store_class:
+            df_2017_promo_store_class_index:
+            test_start_date:
+
+        Returns:
+
+        """
         # Prepare Test data set
         # test_start_date = date(2017, 8, 16)
         X_test = self.prepare_dataset(df_2017, promo_2017, test_start_date, is_train=False)
