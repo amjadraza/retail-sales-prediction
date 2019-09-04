@@ -41,8 +41,22 @@ Activate the environment
 
 Features
 --------
+Machine learning pipeline to predict the sale forecasting. This project is the sand box
+and needs a bit of work to complete it.
 
-* TODO
+Currently it supports below features
+
+* Running the Light GBM Model with fixed training, validation and test sets.
+* Two variants of how unit_sales are filled NA. More can be added
+* Notebooks with Exploratory data analysis
+* Notebooks with Feature engineering and Model Training
+* Documentation using Sphnix
+
+
+TODO
+--------
+
+
 
 Credits
 -------

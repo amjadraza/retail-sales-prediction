@@ -1,0 +1,23 @@
+
+data_dir : '/media/farmshare2/Research/raza/p_data/'
+
+output_dir : '/media/farmshare2/Research/raza/p_data/output/'
+
+anchor_date: 2017-06-14
+
+val_start_date: date(2017, 7, 26)
+
+test_start_date : date(2017, 8, 16)
+
+lgb_params:
+    num_leaves: 3
+    objective: 'regression'
+    min_data_in_leaf: 200
+    learning_rate: 0.02
+    feature_fraction: 0.8
+    bagging_fraction: 0.7
+    bagging_freq: 1
+    metric: 'l2'
+    num_threads: 20
+
+MAX_ROUNDS : 200

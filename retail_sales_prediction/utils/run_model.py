@@ -14,6 +14,7 @@ Todo:
     * Feature Reduction
     * Config file
 """
+import os
 
 import lightgbm as lgb
 from sklearn.metrics import mean_squared_error
@@ -23,7 +24,7 @@ import numpy as np
 from retail_sales_prediction import logger
 
 
-def run_model_lgbm(feature_prep, X_train, y_train, X_val,y_val, X_test, num_days=6):
+def run_model_lgbm(feature_prep, X_train, y_train, X_val, y_val, X_test, config, num_days=6):
     """
     Training the Light GBM Model.
     Args:
@@ -36,24 +37,28 @@ def run_model_lgbm(feature_prep, X_train, y_train, X_val,y_val, X_test, num_days
         num_days:
 
     Returns:
+    :param model_params:
 
     """
 
     logger("Training and predicting models...")
-    params = {
-        'num_leaves': 3,
-        'objective': 'regression',
-        'min_data_in_leaf': 200,
-        'learning_rate': 0.02,
-        'feature_fraction': 0.8,
-        'bagging_fraction': 0.7,
-        'bagging_freq': 1,
-        'metric': 'l2',
-        'num_threads': 20
-    }
-
-    MAX_ROUNDS = 200
-    output_dir = '/media/farmshare2/Research/raza/p_data/'
+    # params = {
+    #     'num_leaves': 3,
+    #     'objective': 'regression',
+    #     'min_data_in_leaf': 200,
+    #     'learning_rate': 0.02,
+    #     'feature_fraction': 0.8,
+    #     'bagging_fraction': 0.7,
+    #     'bagging_freq': 1,
+    #     'metric': 'l2',
+    #     'num_threads': 20
+    # }
+    params = config['model_params']
+    # MAX_ROUNDS = 200
+    MAX_ROUNDS = config['MAX_ROUNDS']
+    output_dir = config['output_dir']
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
     logger.info('output directory : {}'.fromat(output_dir))
     val_pred = []
     test_pred = []
