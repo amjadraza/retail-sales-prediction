@@ -48,7 +48,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'retail-sales-prediction'
-copyright = u"2019, MA RAZA"
+copyright = u"2020, MA RAZA"
 author = u"MA RAZA"
 
 # The version info for the project you're documenting, acts as replacement
