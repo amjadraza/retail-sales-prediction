@@ -6,8 +6,8 @@ retail-sales-prediction
 .. image:: https://img.shields.io/pypi/v/retail_sales_prediction.svg
         :target: https://pypi.python.org/pypi/retail_sales_prediction
 
-.. image:: https://img.shields.io/travis/amjadraza/rretail-sales-prediction.svg
-        :target: https://travis-ci.com/github/amjadraza/retail-sales-prediction
+.. image:: https://travis-ci.com/amjadraza/retail-sales-prediction.svg?branch=master
+    :target: https://travis-ci.com/amjadraza/retail-sales-prediction
 
 .. image:: https://readthedocs.org/projects/retail-sales-prediction/badge/?version=latest
         :target: https://retail-sales-prediction.readthedocs.io/en/latest/?badge=latest
