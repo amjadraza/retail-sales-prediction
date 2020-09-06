@@ -1,5 +1,6 @@
+# Configuration file for the app
 
-data_dir : '/media/farmshare2/Research/raza/p_data/'
+data_dir : "Location of Data"
 
 output_dir : '/media/farmshare2/Research/raza/p_data/output/'
 

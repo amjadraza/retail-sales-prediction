@@ -32,4 +32,5 @@ dependencies:
   - pip:
     - dash == 1.2.
     - sphinx_rtd_theme
+    - loguru
 #    - git+https://github.com/blaze/dask.git#egg=dask[complete]

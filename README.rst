@@ -54,7 +54,14 @@ Currently it supports below features
 
 
 TODO
---------
+----
+
+Project Slides
+==============
+
+You can view the  project slides of my project at using this link_
+
+.. _link: https://www.slideshare.net/AmjadRaza3/a-presentation-for-retail-sales-projects
 
 
 

@@ -1,5 +1,5 @@
 """
-.. module:: readDataStore
+.. module:: data_loader
    :synopsis: Data Reader
 .. moduleauthor:: MA Raza
 

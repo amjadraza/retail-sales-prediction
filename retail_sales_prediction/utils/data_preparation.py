@@ -1,11 +1,11 @@
 """
-.. module:: FeaturePreparation
+.. module:: data_preparation
    :synopsis: Data Preparation
 .. moduleauthor:: MA Raza
 
 This module is to prepare data for training, validation and test periods. This module contains
- functionality to create new features and slice the data into various splits to be used as training
- our models.
+functionality to create new features and slice the data into various splits to be used as training
+our models.
 
 Todo:
     * Add rolling training, validation and test class

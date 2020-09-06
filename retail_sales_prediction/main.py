@@ -22,9 +22,8 @@ import yaml
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from retail_sales_prediction.utils.data_loader import readDataStore
 from retail_sales_prediction.utils.data_preparation import FeaturePreparation
-from retail_sales_prediction.logging_configurator import LoggingConfigurator
 from retail_sales_prediction.utils.run_model import run_model_lgbm
-from retail_sales_prediction import logger
+from loguru import logger
 
 import argparse
 
@@ -41,7 +40,7 @@ if args.config_file:
 logger.info(config)
 
 if __name__ == '__main__':
-    # data_dir = '/media/farmshare2/Research/raza/p_data/'
+    # data_dir = "Location of Data"
 
     data_dir = config['data_dir']
 
