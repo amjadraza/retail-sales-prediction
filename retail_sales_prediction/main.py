@@ -44,7 +44,6 @@ if __name__ == '__main__':
 
     data_dir = config['data_dir']
 
-    LoggingConfigurator.init(data_dir + 'logs.log')
     logger.info('Logger started')
 
     logger.info('Loading the Read Data Module')
