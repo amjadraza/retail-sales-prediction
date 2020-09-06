@@ -14,6 +14,9 @@ Todo:
     * Feature Reduction
     * Config file
 """
+import sys
+sys.path.append('.')
+
 import os
 
 import lightgbm as lgb

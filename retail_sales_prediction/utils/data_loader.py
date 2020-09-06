@@ -9,6 +9,8 @@ Todo:
     * Add more readers
     * Add features to read from Kaggle using API
 """
+import sys
+sys.path.append('.')
 
 import pandas as pd
 import numpy as np

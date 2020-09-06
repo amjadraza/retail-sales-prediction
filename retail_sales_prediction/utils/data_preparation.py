@@ -12,6 +12,8 @@ Todo:
     * Can be re-factored using pandas functionality of rolling generator
     * Convert the code to handle spark dataframes
 """
+import sys
+sys.path.append('.')
 
 from datetime import date, timedelta
 import gc
