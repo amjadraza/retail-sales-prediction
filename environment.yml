@@ -30,7 +30,8 @@ dependencies:
   - jupyter_contrib_nbextensions
   - dash
   - pip:
-    - dash == 1.2.
+    - dash == 1.2
     - sphinx_rtd_theme
     - loguru
+    - click
 #    - git+https://github.com/blaze/dask.git#egg=dask[complete]

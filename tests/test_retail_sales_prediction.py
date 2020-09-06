@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 
 """Tests for `retail_sales_prediction` package."""
-
+import sys
+sys.path.append('.')
 
 import unittest
 from click.testing import CliRunner
 
-from retail_sales_prediction import retail_sales_prediction
 from retail_sales_prediction import cli
 
 
