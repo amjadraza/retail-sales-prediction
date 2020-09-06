@@ -3,8 +3,9 @@ retail-sales-prediction
 =======================
 
 
-.. image:: https://img.shields.io/pypi/v/retail_sales_prediction.svg
-        :target: https://pypi.python.org/pypi/retail_sales_prediction
+
+.. image:: https://badge.fury.io/py/retail-sales-prediction.svg
+    :target: https://badge.fury.io/py/retail-sales-prediction
 
 .. image:: https://travis-ci.com/amjadraza/retail-sales-prediction.svg?branch=master
     :target: https://travis-ci.com/amjadraza/retail-sales-prediction
